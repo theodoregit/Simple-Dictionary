@@ -1,0 +1,221 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+             /* background-color: #c2c2a3;  */
+            background-image: url("imgs/img2.jpg");
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        #main {
+            width: 700px;
+            border: 1px solid saddlebrown;
+            border-radius: 25px;
+            padding: 10px;
+            background-color: lightblue;
+            opacity: 0.8;
+            margin: 200px auto;
+        }
+
+        #main>div {
+            padding: 10px 0;
+        }
+        ul{
+            list-style-type: none;
+            size: 5;
+            margin-left: 25%;
+        }
+        li{
+            font-family: sans-serif;
+            font-size: 15px;
+            padding: 5px;
+        }
+        a{
+            text-decoration-line: none;
+            color: black;
+            opacity: 0.5;
+        }
+        #logo{
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 50px;            
+            
+        }
+        #search-input{
+            width: 45%;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 18px;
+            background-color: white;
+            background-image: url('searchicon.png');
+            background-position: 10px 10px; 
+            background-repeat: no-repeat;
+            padding: 12px 20px 12px 40px;
+            -webkit-transition: width 0.4s ease-in-out;
+            transition: width 0.4s ease-in-out;
+            margin-left: 20%;
+            color: white;
+            
+        }
+        #search-input:focus{
+            width: 50%;
+            background-color: darkgrey;
+        }
+        #go{
+            background-color: #4CAF50; /* Green */
+            border-radius: 20%;            
+            padding: 15px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+            border: 2px solid #555555;
+        }
+        #go:hover{
+            background-color: #555555;
+            color: white;
+
+        }
+        .word{
+            font-family: sans-serif;
+            font-weight: bolder;
+            font-size: 15px;
+        }
+        .meaning{
+            font-family: Courier New, Courier, monospace;
+            font-weight: bold;
+        }
+        #logout{
+            float: right;
+            margin-top: -150px;
+            margin-right: 10px;
+            border-top: solid black;
+            border-top-left-radius: 5px;
+            font-family: fantasy;
+        }
+        #holder{
+            float: left;
+            margin-left: -150px; 
+            width: 500px;
+            
+        }
+        #test a{
+            font-size: 20px;
+            color: teal;
+            font-weight: bolder;
+            
+        }
+        #test{
+            
+            margin-top: -170px;
+        }
+        #test li{
+            display: inline;
+            align-content: center;
+           
+        }
+        .options {
+            background-color: white;
+            color: black;
+            opacity: 10;
+            margin-left: 100px;
+            padding-left: 0px;
+            padding-right: 0px
+        }
+        
+        
+    </style>
+
+</head>
+
+<body>
+    
+    <a href="/" id="logout">Logout</a>
+    <section id="main">
+        <div id="logo">
+            Simple Search
+        </div>
+        <div id='search'>
+            <input id="search-input" type="text" placeholder="Search">
+            <button id='go'>Go</button>
+        </div>
+        <div id="suggestions">
+
+        </div>
+        <div id="response">
+            <span class="word"></span>: <span class="meaning"></span><br>
+            <hr>
+            
+        </div>
+    </section>
+    <ul id="test">
+        <li class="options"><a href="/editing/add">Add a word</a></li>
+        <li class="options"><a href="/editing/edit">Edit a word</a></li>
+    </ul>
+    <!-- <div id="holder">
+        <ul>
+            <li><a href="/editing/add">Add a word</a></li>
+            <li><a href="/editing/edit">Edit a word</a></li>
+        </ul>
+    </div> -->
+    <script>
+            let input = document.getElementById('search-input');
+            let goButton = document.getElementById('go');
+            let word = document.getElementsByClassName('word');
+            let meaning = document.getElementsByClassName('meaning');
+            let suggestions = document.getElementById('suggestions');
+            let lists = document.getElementById('list');
+                  
+            
+            goButton.onclick = function(){
+                let httpRequest = new XMLHttpRequest();
+                var wordText = input.value;         
+                word[0].textContent = wordText;
+                httpRequest.onreadystatechange = function(){
+                    if(httpRequest.readyState == XMLHttpRequest.DONE){
+                        if(httpRequest.status == 200){
+                            meaning[0].textContent = httpRequest.responseText;
+                        }else{
+                            meaning[0].textContent = "";
+                        }
+                    }
+                }
+                
+                httpRequest.open('GET', './dictionary?word=' + wordText, true);
+                httpRequest.send();
+            }
+
+            input.oninput = function(){
+                let httpRequest = new XMLHttpRequest();
+                var wordText = input.value;                
+                // word[0].textContent = wordText;
+                httpRequest.onreadystatechange = function(){
+                    if(httpRequest.readyState == XMLHttpRequest.DONE){
+                        if(httpRequest.status == 200){
+                            suggestions.innerHTML = httpRequest.responseText;
+
+                        }else{
+                            suggestions.textContent = "null";
+                        };
+                    }
+                }
+                
+                httpRequest.open('GET', './suggestion?word=' + wordText, true);
+                httpRequest.send();
+            }
+        </script>
+</body>
+
+</html>

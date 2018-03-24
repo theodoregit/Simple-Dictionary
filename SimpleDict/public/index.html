@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            /* background-color: #c2c2a3; */
+            background-image: url("imgs/img2.jpg");
+            background-repeat: no-repeat;
+            background-size: 100%;
+            
+        }
+        section {
+            width: 400px;
+            border: 1px solid saddlebrown;
+            padding: 10px;
+            margin: 200px auto;
+            background-color: #6666ff;
+            border-radius: 10px;
+        }
+
+        section>div {
+            padding: 10px 0;
+        }
+        #logo{
+            text-align: center;
+            font-size: 30px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: blue;
+        }
+        .names{
+            font-size: 20px;
+            font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
+        }
+        #man{
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #64511e;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 18px;
+            padding: 15px;
+            width: 100px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin-left: 40%;
+        }
+        #man span{
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+        #man span:after{
+            content: '»';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+        #man:hover span{
+            padding-right: 25px;
+        }
+        #man:hover span::after{
+            opacity: 1;
+            right: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <section>
+        <div id="logo">
+            Sign In
+        </div>
+        <div id='container'>
+            <form method="POST" action="/dict/dictionary">
+                <span class="names">User Name:</span> <input id="username" type="text" name="username" required><br><br>
+                <span class="names">Password:</span> <input id="password" type="password" name="password" required><br><br>
+                <!-- <button id='login'>Login</button> -->
+                <button id='man' onclick="clear()"><span>Login</span></button>
+            </form>
+        </div>
+
+        <a id="new" href="./signup/signup">Create new account</a>
+        
+    </section>
+    
+    <script>
+            let username = document.getElementById('username');
+            let password = document.getElementById('password');
+            // let btn = document.getElementsById('man');
+            let btn = document.getElementById('man');
+            
+            function clear(){
+                username.innerHTML = "";
+                password.innerHTML = "";
+            }
+
+            btn.onclick = function(){
+
+                let httpRequest = new XMLHttpRequest();                            
+                
+                var un = username.value;
+                var pw = password.value;
+                httpRequest.onreadystatechange = function(){
+                    if(httpRequest.readyState == XMLHttpRequest.DONE){
+                        if(httpRequest.status == 200){
+                            
+                        }else{
+                            
+                        }
+                    }
+                }
+                
+                // httpRequest.open('GET', './?username=' + un + '&password=' + pw, true);
+                // httpRequest.send();
+            }
+
+            
+        </script>
+</body>
+
+</html>

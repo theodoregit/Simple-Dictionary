@@ -1,0 +1,116 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit</title>
+    <style>
+        body {
+            /* background-color: #c2c2a3; */
+            background-image: url("imgs/img2.jpg");
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        section {
+            width: 400px;
+            border: 1px solid saddlebrown;
+            border-radius: 20px;
+            padding: 50px;
+            margin: 200px auto;
+            height: 200px;
+            opacity: 0.8;
+            background: lightblue; /* For browsers that do not support gradients */    
+            background: -webkit-linear-gradient(left top, white, lightblue); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(bottom right, white, lightblue); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(bottom right, white, lightblue); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(to bottom right, white, lightblue); /* Standard syntax (must be last) */
+        }
+
+        section>div {
+            padding: 10px 0;
+        }
+        #logout{
+            float: right;
+            margin-top: -150px;
+            margin-right: 10px;
+            border-top: solid black;
+            border-top-left-radius: 5px;
+            font-family: fantasy;
+        }
+    </style>
+
+</head>
+
+<body>
+    
+    <a href="/" id="logout">Logout</a>
+    <section>
+        <div id="logo">
+            Change the meaning of the word
+        </div>
+        <div id='search'>
+            <input id="search-input" type="text"><button id="go">Go</button>      
+        </div>
+        <div id="response">
+            <!-- <span class="word"></span>: <span class="meaning"></span><br><br> -->
+            <textarea rows="5" cols="30" id="area" name="textarea"></textarea><br><br>
+            <button id='done'>Done</button>
+            <hr>
+            <div id="suggestions">
+
+            </div>
+        </div>
+    </section>
+    <script>
+            let input = document.getElementById('search-input');
+            let done_btn = document.getElementById('done');
+            let word = document.getElementsByClassName('word');
+            let meaning = document.getElementsByClassName('meaning');
+            let text_area = document.getElementById('area'); 
+            let suggestions = document.getElementById('suggestions');
+
+            var wordText;
+            go.onclick = function(){
+                let httpRequest = new XMLHttpRequest();
+                wordText = input.value;                
+                // word[0].textContent = wordText;                
+                httpRequest.onreadystatechange = function(){
+                    if(httpRequest.readyState == XMLHttpRequest.DONE){
+                        if(httpRequest.status == 200){
+                            text_area.textContent = httpRequest.responseText;
+                        }else{
+                            text_area.textContent = "";
+                        }
+                    }
+                }
+                
+                httpRequest.open('GET', './dictionary?word=' + wordText, true);
+                httpRequest.send();
+            }
+
+            done_btn.onclick = function(){
+
+                let httpRequest = new XMLHttpRequest();                
+                var meaning = text_area.value;               
+                // word[0].textContent = wordText;                
+                httpRequest.onreadystatechange = function(){
+                    if(httpRequest.readyState == XMLHttpRequest.DONE){
+                        if(httpRequest.status == 200){
+                            // meaning[0].textContent = httpRequest.responseText;
+                        }else{
+                            // meaning[0].textContent = "";
+                        }
+                    }
+                }
+                
+                // httpRequest.open('GET', './edit?meaning=' + meaning, true);
+                httpRequest.open('GET', './edit?word=' + wordText +  '&meaning=' + meaning, true);
+                httpRequest.send();
+            }
+
+            
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            /* background-color: #c2c2a3; */
+            background-image: url("imgs/img2.jpg");
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+        section {
+            width: 400px;
+            border: 1px solid saddlebrown;
+            border-radius: 20px;
+            background-color: lightblue;
+            opacity: 0.8;
+            padding: 10px;
+            margin: 200px auto;
+            height: 200px;
+            background: lightblue; /* For browsers that do not support gradients */    
+            background: -webkit-linear-gradient(left top, white, lightblue); /* For Safari 5.1 to 6.0 */
+            background: -o-linear-gradient(bottom right, white, lightblue); /* For Opera 11.1 to 12.0 */
+            background: -moz-linear-gradient(bottom right, white, lightblue); /* For Firefox 3.6 to 15 */
+            background: linear-gradient(to bottom right, white, lightblue); /* Standard syntax (must be last) */
+        }
+
+        section>div {
+            padding: 10px 0;
+        }
+        #logout{
+            float: right;
+            margin-top: -150px;
+            margin-right: 10px;
+            border-top: solid black;
+            border-top-left-radius: 5px;
+            font-family: fantasy;
+        }
+    </style>
+
+</head>
+
+<body>
+    <a href="/" id="logout">Logout</a>
+    <section>
+        <!-- <form method="POST"> -->
+            <div id="logo">
+                Add New Word
+            </div>
+            <div id='container'>
+                Enter a word: <input id="new_word" type="text" name="new_word"><br><br>
+                <textarea rows="5" cols="50" id="area" name="textarea" placeholder="Meaning here ..."></textarea><br><br>
+                <!-- <button type="submit" name="submit">Submit</button>        -->
+                 <button id='add' onclick="clear()">ADD</button>                 
+            </div>
+            <div>
+                <span class="message"></span>
+            </div>
+        <!-- </form> -->
+        
+    </section>
+    <script>
+            var input_word = document.getElementById('new_word'); 
+            var input_area = document.getElementById('area');           
+            var add_btn = document.getElementById('add');
+            var message = document.getElementsByClassName('message');
+            
+            function clear(){                
+                input_word.value = " ";
+                input_area.value = " ";
+            }
+            
+            add_btn.onclick = function(){
+
+                let httpRequest = new XMLHttpRequest();
+                
+                
+                var word = input_word.value;
+                var area = input_area.value;          
+                
+                
+                httpRequest.onreadystatechange = function(){
+                    if(httpRequest.readyState == XMLHttpRequest.DONE){
+                        if(httpRequest.status == 200){
+                            
+                        }                        
+                        else{
+                            console.log("error");
+                        }
+                    }
+                }
+                
+                // httpRequest.open('GET', './dictionary?word=' + wordText, true);
+                httpRequest.open('GET', './add?word=' + word +  '&meaning=' + area, true);
+                httpRequest.send();
+            };
+            
+        </script>
+</body>
+
+</html>
